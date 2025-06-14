@@ -238,7 +238,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-center">
             <img 
-              src="/public/logo.png" 
+              src="/logo.png" 
               alt="Infrastructure Assessment Tool Logo" 
               className="h-8 sm:h-10 md:h-12 w-auto transform transition-transform duration-300 hover:scale-105"
             />
