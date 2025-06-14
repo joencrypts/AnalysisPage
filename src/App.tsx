@@ -284,7 +284,7 @@ function App() {
             />
             <label
               htmlFor="file-upload"
-              className="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-600 text-white text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-blue-700 hover:scale-105 hover:shadow-md cursor-pointer active:scale-95"
+              className="inline-flex items-center px-3 sm:px-4 py-2 bg-emerald-400 text-white text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-emerald-500 hover:scale-105 hover:shadow-md cursor-pointer active:scale-95"
             >
               <Upload className="w-3 h-3 sm:w-4 sm:h-4 mr-2 transition-transform duration-300 group-hover:rotate-12" />
               Choose Files
@@ -304,8 +304,8 @@ function App() {
                 disabled={isGenerating}
                 className={`inline-flex items-center justify-center px-3 sm:px-4 py-2 rounded-lg font-medium transition-all duration-300 w-full sm:w-auto transform hover:scale-105 active:scale-95 ${
                   isGenerating
-                    ? 'bg-blue-400 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 hover:shadow-md'
+                    ? 'bg-emerald-300 cursor-not-allowed'
+                    : 'bg-emerald-400 hover:bg-emerald-500 hover:shadow-md'
                 } text-white text-sm sm:text-base`}
               >
                 {isGenerating ? (
@@ -431,7 +431,7 @@ function App() {
                 href="https://example.com/submit-assessment"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-green-600 text-white text-sm sm:text-base font-semibold rounded-lg transition-all duration-300 hover:bg-green-700 hover:scale-105 hover:shadow-md active:scale-95 w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-emerald-400 text-white text-sm sm:text-base font-semibold rounded-lg transition-all duration-300 hover:bg-emerald-500 hover:scale-105 hover:shadow-md active:scale-95 w-full sm:w-auto"
               >
                 <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 mr-2 transition-transform duration-300 group-hover:rotate-12" />
                 Submit Assessment
