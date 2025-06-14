@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Upload, FileImage, Download, ExternalLink, Building, Grid as Bridge, Loader as Road, Hammer, AlertTriangle } from 'lucide-react';
 import jsPDF from 'jspdf';
 
@@ -148,6 +148,9 @@ function App() {
   const [selectedScenarios, setSelectedScenarios] = useState<string[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showReviewImages, setShowReviewImages] = useState(false);
+  const [showAssessmentDescription, setShowAssessmentDescription] = useState(false);
+  const [showEstimatedCost, setShowEstimatedCost] = useState(false);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -230,6 +233,18 @@ function App() {
     setSelectedScenarios(newSelectedScenarios);
     setIsGenerating(false);
   };
+
+  useEffect(() => {
+    if (selectedScenarios.length > 0) {
+      setShowReviewImages(false);
+      setShowAssessmentDescription(false);
+      setShowEstimatedCost(false);
+      const timerReview = setTimeout(() => setShowReviewImages(true), 6000);
+      const timerDesc = setTimeout(() => setShowAssessmentDescription(true), 8000);
+      const timerCost = setTimeout(() => setShowEstimatedCost(true), 10000);
+      return () => { clearTimeout(timerReview); clearTimeout(timerDesc); clearTimeout(timerCost); };
+    }
+  }, [selectedScenarios]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -375,18 +390,36 @@ function App() {
                     </div>
                     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-slate-200 transition-all duration-300 hover:shadow-md">
                       <h4 className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs sm:text-sm transition-all duration-300">Review Image</h4>
-                      <img
-                        src={scenario!.recreatedImage}
-                        alt="Reference"
-                        className="w-full h-full object-contain bg-slate-50 transition-transform duration-500 hover:scale-105"
-                      />
+                      {showReviewImages ? (
+                        <img
+                          src={scenario!.recreatedImage}
+                          alt="Reference"
+                          className="w-full h-full object-contain bg-slate-50 transition-transform duration-500 hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center w-full h-full">
+                          <svg className="animate-spin h-12 w-12 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                          </svg>
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   {/* Description */}
                   <div className="mb-4 sm:mb-6 transition-all duration-300">
                     <h4 className="text-base sm:text-lg font-semibold text-slate-900 mb-2 sm:mb-3">Assessment Description</h4>
-                    <p className="text-sm sm:text-base text-slate-700 leading-relaxed">{scenario!.description}</p>
+                    {showAssessmentDescription ? (
+                      <p className="text-sm sm:text-base text-slate-700 leading-relaxed">{scenario!.description}</p>
+                    ) : (
+                      <div className="flex items-center justify-center w-full h-24">
+                        <svg className="animate-spin h-12 w-12 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                      </div>
+                    )}
                   </div>
 
                   {/* Cost Estimation */}
@@ -397,21 +430,27 @@ function App() {
                       </div>
                       {scenario!.costEstimation.title}
                     </h4>
-                    <div className="space-y-2 sm:space-y-3">
-                      {scenario!.costEstimation.breakdown.map((item, index) => (
-                        <div 
-                          key={index} 
-                          className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b border-slate-200 last:border-b-0 gap-1 sm:gap-0 transition-all duration-300 hover:bg-white hover:px-2 hover:rounded"
-                        >
-                          <span className="text-sm sm:text-base text-slate-700">{item.item}</span>
-                          <span className="font-semibold text-sm sm:text-base text-slate-900">{item.cost}</span>
+                    {showEstimatedCost ? (
+                      <div className="space-y-2 sm:space-y-3">
+                        {scenario!.costEstimation.breakdown.map((item, index) => (
+                          <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b border-slate-200 last:border-b-0 gap-1 sm:gap-0 transition-all duration-300 hover:bg-white hover:px-2 hover:rounded">
+                            <span className="text-sm sm:text-base text-slate-700">{item.item}</span>
+                            <span className="font-semibold text-sm sm:text-base text-slate-900">{item.cost}</span>
+                          </div>
+                        ))}
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-3 border-t-2 border-slate-300 gap-1 sm:gap-0 transition-all duration-300">
+                          <span className="text-base sm:text-lg font-semibold text-slate-900">Total Estimated Cost</span>
+                          <span className="text-lg sm:text-xl font-bold text-orange-600 transition-transform duration-300 hover:scale-105">{scenario!.costEstimation.total}</span>
                         </div>
-                      ))}
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-3 border-t-2 border-slate-300 gap-1 sm:gap-0 transition-all duration-300">
-                        <span className="text-base sm:text-lg font-semibold text-slate-900">Total Estimated Cost</span>
-                        <span className="text-lg sm:text-xl font-bold text-orange-600 transition-transform duration-300 hover:scale-105">{scenario!.costEstimation.total}</span>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="flex items-center justify-center w-full h-24">
+                        <svg className="animate-spin h-12 w-12 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
