@@ -371,7 +371,7 @@ function App() {
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 <div className="bg-gradient-to-r from-green-600 to-green-700 px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300 hover:from-green-700 hover:to-green-800">
-                  <h3 className="text-lg sm:text-xl font-semibold text-white flex items-center">
+                  <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 flex items-center">
                     <span className="transition-transform duration-300 group-hover:rotate-12">{scenario!.icon}</span>
                     <span className="ml-2">{scenario!.name} Assessment</span>
                   </h3>
