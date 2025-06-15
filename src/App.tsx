@@ -466,16 +466,14 @@ function App() {
               <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">
                 Review and submit your assessment for further processing
               </p>
-              <a
-                href="https://example.com/submit-assessment"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => { window.location.href = "http://localhost:3000/app/dashboard"; }}
                 className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-emerald-400 text-white text-sm sm:text-base font-semibold rounded-lg transition-all duration-300 hover:bg-emerald-500 hover:scale-105 hover:shadow-md active:scale-95 w-full sm:w-auto"
               >
                 <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 mr-2 transition-transform duration-300 group-hover:rotate-12" />
                 Submit Assessment
                 <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 ml-2 transition-transform duration-300 group-hover:rotate-12" />
-              </a>
+              </button>
             </div>
           </div>
         )}
